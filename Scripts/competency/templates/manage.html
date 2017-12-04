@@ -1,0 +1,103 @@
+﻿<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>{{acmc.formTitle}}</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="/admin/home#/">Home</a>
+            </li>
+            <li>
+                <a href="index#/">Staff Competencies</a>
+            </li>
+            <li class="active">
+                <strong>{{acmc.breadCrumb}}</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-7">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>{{acmc.formTitle}}</h5>
+                    <div ibox-tools></div>
+                </div>
+                <div class="ibox-content">
+                    <form id="userCompetencyForm" name="acmc.userCompetencyForm" role="form" novalidate>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="dropdown form-group dropdown-start-parent">
+                                        <label>User</label>
+                                        <select name="userSelect" class="form-control m-b" ng-if="!acmc.competencyUserId" ng-options='user.id as (user.firstName + " " + user.lastName) for user in acmc.users | orderBy: "firstName" ' ng-model="acmc.competencyPayload.userId">
+                                            <option value='' disabled>- Please Choose -</option>
+                                        </select>
+                                        <input ng-if="acmc.competencyUserId" class="form-control" type="text" value="{{acmc.competencyPayload.firstName}} {{acmc.competencyPayload.lastName}}" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Competency</label>
+                                    <select class="form-control m-b" ng-options="competencies.id as competencies.name for competencies in acmc.competencies" ng-model="acmc.competencyPayload.competencyId" ng-disabled="!acmc.competencyPayload.userId && !acmc.competencyPayload.competencyId">
+                                        <option value='' disabled>- Please Choose -</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Status</label>
+                                    <select class="form-control m-b" ng-model="acmc.competencyPayload.status" ng-disabled="!acmc.competencyPayload.userId && !acmc.competencyPayload.competencyId">
+                                        <option value='' disabled>- Please Choose -</option>
+                                        <option value="Competent">Competent</option>
+                                        <option value="Not Competent">Not Competent</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>Activity Type</label>
+                                    <select class="form-control m-b" ng-model="acmc.competencyPayload.activityType" ng-disabled="!acmc.competencyPayload.status">
+                                        <option value='' disabled>- Please Choose -</option>
+                                        <option value="Passed Test">Passed Test</option>
+                                        <option value="Failed Test">Failed Test</option>
+                                        <option value="Displayed Knowledge">Displayed Knowledge</option>
+                                        <option value="Certification">Certification</option>
+                                        <option value="PCC">PCC</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-9">
+                                    <label>Notes</label>
+                                    <input type="text" class="form-control" name="Notes" ng-model="acmc.competencyPayload.notes" ng-disabled="!acmc.competencyPayload.status"/>
+                                </div>
+                            </div>
+                            <fieldset class="row" ng-disabled="!acmc.competencyPayload.status">
+                                <div class="col-md-12">
+                                    <label>Attachments</label>
+                                    <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                        <div class="form-control" data-trigger="fileinput">
+                                            <i class="glyphicon glyphicon-file fileinput-exists"></i>
+                                            <span class="fileinput-filename"></span>
+                                        </div>
+                                        <span class="input-group-addon btn btn-default btn-file">
+                                            <span class="fileinput-new">Select file</span>
+                                            <span class="fileinput-exists">Change</span>
+                                            <input type="file" name="..." multiple />
+                                        </span>
+                                        <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div id="inspectionCreateDiv">
+                            <a href="/admin/competency/index#/" id="inspectionCreateBack" class="btn btn-default">Cancel</a>
+                            <button class="btn btn-success" type="button" ng-click="acmc.submitCompetency()"><i class="fa fa-check-square-o"></i>&nbsp;&nbsp;<span class="bold">Submit</span></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

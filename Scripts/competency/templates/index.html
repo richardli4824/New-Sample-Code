@@ -1,0 +1,70 @@
+﻿
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Staff Competencies</h2>
+        <ol class="breadcrumb">
+            <li><a href="/admin/home#/">Home</a></li>
+            <li class="active">  <strong>Staff Competencies</strong></li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Staff Competencies</h5>
+                    <div class="ibox-tools">
+                        <a href="/admin/competency/index#/create" class="btn btn-primary"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Competency</a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <table datatable="ng" dt-options="acic.dtOptions" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>       
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Competency</th>
+                                <th>Status</th>
+                                <th>Activity Type</th>
+                                <th>Notes</th>
+                                <th>Authorized By</th>
+                                <th>Created Date</th>
+                                <th>Attachments</th>
+                                <th>Id</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-ng-repeat="competency in acic.competencies">                                
+                                <td ng-bind="competency.firstName + ' ' + competency.lastName"></td>
+                                <td ng-bind="competency.email"></td>
+                                <td ng-bind="competency.competencyName"></td>
+                                <td ng-bind="competency.status"></td>
+                                <td ng-bind="competency.activityType"></td>
+                                <td style="width: 100px;" ng-bind="competency.notes"></td>
+                                <td ng-bind="competency.authorizedBy"></td>
+                                <td ng-bind="competency.createdDate | UTCToNow: 'short' "></td>
+                                <td ng-bind="competency.attachments"></td>
+                                <td style="width: 100px;" ng-bind="competency.id"></td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn-white btn-sm dropdown-toggle btn btn-action" data-toggle="dropdown" aria-expanded="false">
+                                            Actions <i class="fa fa-angle-down"></i>
+                                            <span class="sr-only">Toggle Dropdown</span>
+                                        </button>
+                                        <ul class="dropdown-menu pull-right" role="menu">
+                                            <li><a ng-href="#/edit/{{competency.competencyUserId}}"><i class="fa fa-edit"></i> Edit</a></li>
+                                            <li><a ng-click="acic.openDeleteModal(competency.competencyUserId)"><i class="fa fa-trash"></i> Delete</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

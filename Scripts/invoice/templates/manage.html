@@ -1,0 +1,220 @@
+﻿
+<style>
+    .invoice-container {
+        margin-top: 60px;
+        margin-bottom: 60px;
+        border: 2px solid #ECF0F1;
+        padding: 40px;
+        min-height: 800px;
+        position: relative;
+    }
+    .invoice-header {
+        margin-bottom: 50px;
+    }
+    .invoice-footer {
+        position: relative;
+        top: 200px;
+        bottom: 0;
+    }
+    .accept-invoice-button {
+        position: relative;
+        top: 50px;
+    }
+    .text-navy {
+        color: #3498DB;
+    }
+    .item-list {
+        font-size: 14px;
+        font-weight: bold;
+    }
+    .invoice-total {
+        margin-left: 600px;
+        width: 25%;
+        float: right;
+    }
+    .quoteLetter > p {
+        line-height: 20px;
+        font-size: 16px;
+    }
+    .quoteLetter > ul {
+        line-height: 20px;
+        font-size: 14px;
+    }
+    .expiration-status {
+        position: absolute;
+        border: 5px solid tomato;
+        border-radius: 20px;
+        width: 600px;
+        height: auto;
+        z-index: 9999;
+        color: tomato;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 15px 0;
+    }
+    .exp-text {
+        position: relative;
+        top: 10%;
+        font-size: 45px;
+        font-weight: bold;
+    }
+    .exp-text-sub-heading {
+        position: relative;
+        font-size: 30px;
+        top: 10%;
+    }
+
+</style>
+
+
+<div class="wrapper">
+    <div class="container invoice-container">
+        <div class="expiration-status text-center" ng-show="qc.expiredContainer">
+            <span class="exp-text">{{qc.expirationMessage}}</span><br />
+            <span class="exp-text-sub-heading">{{qc.expirationSubHeading}} </span>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="wrapper wrapper-content">
+                    <div class="ibox-content p-xl">
+                        <div id="invoice">
+                            <div class="row invoice-header">
+                                <div class="col-sm-2">
+                                    <address>
+                                        <img src="../../../../../../Images/logos/logo_RTWS.png" /><br><br />
+                                        <p>
+                                            <b>
+                                                IAPMO World Headquarters West<br>
+                                                4755 E. Philadelphia St.<br>
+                                                Phone: (951) 288-5448
+                                            </b>
+                                        </p>
+                                    </address>
+                                </div>
+
+                                <div class="col-sm-10 text-right">
+                                    <h5>{{qc.invoiceHeading}} No.</h5>
+                                    <h4 class="text-navy"><b>{{qc.quote.id}}</b></h4>
+                                    <!--<span>To:</span>
+                                    <address>
+                                        <strong>{{aqc.invoicePayload.name}}</strong><br>
+                                        {{aqc.invoicePayload.address}}<br>
+                                        <strong>Contact Person:</strong> {{aqc.invoicePayload.contactPerson}}<br />
+                                        <strong>QA Person:</strong> {{aqc.invoicePayload.qaPerson}}<br />
+                                        <abbr title="Phone">P:</abbr> {{aqc.invoicePayload.phone}}
+                                    </address>-->
+                                    <p>
+                                        <span><strong>Invoice Date:</strong> {{qc.quote.createdDate | date: 'longDate'}}</span><br>
+                                        <span><strong>Due Date:</strong> {{qc.expirationDate | date: 'longDate'}}</span><br>
+                                    </p>
+                                    <p>
+                                        <span><strong>Product Description:</strong> {{qc.quote.productDescription}}</span><br />
+                                        <span><strong>File Number:</strong> {{qc.quote.fileNumber}}</span>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <section ng-if="qc.quote.quoteAccepted == 1">
+                                <div class="table-responsive m-t">
+                                    <table class="table invoice-table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Item List</th>
+                                                <th>Unit Price</th>
+                                                <th>Total Price</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="lineItem in qc.lineItems">
+                                                <td class="text-navy" style="width: 75%;"><span class="item-list">{{lineItem.name}} Certification</span></td>
+                                                <td style="width: 10%;">${{lineItem.lineItemPrice}}</td>
+                                                <td style="width: 10%;">${{lineItem.lineItemPrice}}</td>
+                                            </tr>    
+                                            <tr ng-if="qc.lineItems">
+                                                <td class="text-navy" style="width: 75%;"><span class="item-list">{{qc.quote.certificationType}} Certification</span></td>
+                                                <td style="width: 10%;">${{qc.quote.price - qc.combinedLineItemPrice}}</td>
+                                                <td style="width: 10%;">${{qc.quote.price - qc.combinedLineItemPrice}}</td>
+                                            </tr>
+                                            <tr ng-if="!qc.lineItems">
+                                                <td class="text-navy" style="width: 75%;"><span class="item-list">{{qc.quote.certificationType}} Certification</span></td>
+                                                <td style="width: 10%;">${{qc.quote.price}}</td>
+                                                <td style="width: 10%;">${{qc.quote.price}}</td>
+                                            </tr>
+                                            <tr ng-repeat="comment in qc.comments">
+                                                <td ng-if="comment.displayToClient == 1" style="border: none;">
+                                                    <div class="well well-lg row" style="margin-bottom: 0;">
+                                                        <p ng-bind="comment.commentText" class="pull-left text-left"></p>
+                                                    </div>
+                                                </td>
+                                            </tr>                                                   
+                                        </tbody>
+                                    </table>
+                                </div><!-- /table-responsive -->
+
+                                <table class="table invoice-total">
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Sub Total :</strong></td>
+                                            <td>${{qc.quote.price}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>TOTAL :</strong></td>
+                                            <td><b>${{qc.quote.price}}</b></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </section>
+
+                            <article class="quoteLetter" ng-if="qc.quote.quoteAccepted == 0">
+                                <h4>Dear Sir/Madam:</h4>
+                                <p>We are pleased to present this proposal for testing of your <b><u>{{qc.quote.certificationType}}</u></b> Standard. This proposal has been carefully prepared based upon the information you have provided to The IAPMO Group.</p>
+                                <p>The IAPMO Group is a third party inspection, testing, and certification services agency. The IAPMO Group has offices in more than 12 countries around the world. Many of the requirements of IAPMO’s Uniform Plumbing Code (UPC®) protect the health and safety of half the people in the world. Visit <a href="http://www.iapmo.org" target="_blank">www.iapmo.org</a> for more information.</p>
+                                <p>Upon review of the information you provided, the estimated cost to list your product is <b><u>${{qc.quote.price}}</u></b>. Listing should take about 2-4 weeks once we have received the following:</p>
+                                <ul>
+                                    <li>Submit a copy of your purchase order (or acceptance of this proposal in writing)</li>
+                                    <li>
+                                        The necessary product documentation as follows:
+                                        <ul>
+                                            <li>Specify list of necessary documentation here, i.e:</li>
+                                            <li>Technical drawing</li>
+                                            <li>Material specification</li>
+                                            <li>Marking information</li>
+                                        </ul>
+                                    </li>
+                                    <li>50% down payment of the total amount of this project.</li>
+                                    <li>Full payment of the total amount of this project.</li>
+                                </ul>
+                                <p>In addition to the above requirements, if your factory does not currently have a current ISO 9001 certification by an IAF MLA signatory accredited certification body or has been inspected by an IAPMO inspector within the last 12 months, a satisfactory completion of an initial factory inspection is required before we can finalize our decision to list your product.</p>
+                                <p>The remainder balance is due when project is completed.</p>
+                                <p>Listing Certificate will be issued upon receipt of full payment of the total amount of this project.</p>
+                                <p>The listing is good for 12 months from the date the approval is granted. In order to keep the listing current, a renewal application shall be submitted before the listing expires. IAPMO will send a reminder to renew 60 to 90 days before its expiration.</p>
+                                <p>Upon receipt of this proposal, please let us know if you have any questions regarding this proposal or the testing process. This proposal is valid for 30 days from the date it is issued.</p>
+                                <p>We look forward to working with you on this project and we thank you for the opportunity to submit this proposal.</p>
+                                <br /><p>Sincerely,<br /><br />The IAPMO Group</p>
+                            </article>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="text-right accept-invoice-button">
+                            <button ng-click="qc.printInvoice('invoice')" class="btn btn-white">
+                                <i class="fa fa-print"></i> Print {{qc.invoiceHeading}}
+                            </button>
+                            <a ng-href="#/payment/{{qc.quote.clientId}}/{{qc.quote.id}}" ng-if="qc.quote.quoteAccepted == 1" class="btn btn-primary">
+                                <i class="fa fa-check"></i> {{qc.submitButton}}
+                            </a>
+                            <button ng-if="qc.quote.quoteAccepted == 0" class="btn btn-primary" ng-click="qc.submitInvoice();">
+                                <i class="fa fa-check"></i> {{qc.submitButton}}
+                            </button>
+                        </div>
+                        <div class="well m-t invoice-footer">
+                            <div ng-if="qc.quote.quoteAccepted == 1">
+                                <strong>Comments</strong>
+                                Legal stuff goes here. and other footer stuff
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,147 @@
+﻿
+<style>
+    .invoice-container {
+        margin-top: 60px;
+        margin-bottom: 60px;
+        border: 2px solid #ECF0F1;
+        padding: 40px;
+        padding-bottom: 60px;
+        min-height: 800px;
+        position: relative;
+    }
+
+    .invoice-header {
+        margin-bottom: 50px;
+    }
+
+    .invoice-footer {
+        position: relative;
+        top: 200px;
+        margin-top: -20px;
+    }
+
+    .accept-invoice-button {
+        position: relative;
+        top: 50px;
+    }
+
+    .text-navy {
+        color: #3498DB;
+    }
+
+    .item-list {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .invoice-total {
+        margin-left: 600px;
+        width: 25%;
+        float: right;
+    }
+
+    .quoteLetter > p {
+        line-height: 20px;
+        font-size: 16px;
+    }
+
+    .quoteLetter > ul {
+        line-height: 20px;
+        font-size: 14px;
+    }
+</style>
+
+
+<div class="wrapper">
+    <div class="container invoice-container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="wrapper wrapper-content">
+                    <div class="ibox-content p-xl">
+                        <div id="invoice">
+                            <div class="row invoice-header">
+                                <div class="col-sm-2">
+                                    <address>
+                                        <img src="../../../../../../Images/logos/logo_RTWS.png" /><br><br />
+                                        <p>
+                                            <b>
+                                                IAPMO World Headquarters West<br>
+                                                4755 E. Philadelphia St.<br>
+                                                Phone: (951) 288-5448
+                                            </b>
+                                        </p>
+                                    </address>
+                                </div>
+
+                                <div class="col-sm-10 text-right">
+                                    <h5>Project No.</h5>
+                                    <h4 class="text-navy"><b>{{rc.project.projectNumber}}</b></h4>
+                                    <!--<span>To:</span>
+                                    <address>
+                                        <strong>{{aqc.invoicePayload.name}}</strong><br>
+                                        {{aqc.invoicePayload.address}}<br>
+                                        <strong>Contact Person:</strong> {{aqc.invoicePayload.contactPerson}}<br />
+                                        <strong>QA Person:</strong> {{aqc.invoicePayload.qaPerson}}<br />
+                                        <abbr title="Phone">P:</abbr> {{aqc.invoicePayload.phone}}
+                                    </address>-->
+                                    <p>
+                                        <span><strong>Date:</strong> {{aqc.invoicePayload.createdDate | UTCToNow: 'short'}}</span><br>
+                                    </p>
+                                </div>
+                            </div>
+                            <h3>{{rc.project.projectType}}</h3>
+                            <section>
+                                <div class="table-responsive m-t">
+                                    <table class="table invoice-table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Item List</th>
+                                                <th>Unit Price</th>
+                                                <th>Total Price</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-navy" style="width: 75%;"><span class="item-list">{{rc.project.description}} Project #{{rc.project.projectNumber}} Renewal</span></td>
+                                                <td style="width: 10%;">$1295.00</td>
+                                                <td style="width: 10%;">$1295.00</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div><!-- /table-responsive -->
+
+                                <table class="table invoice-total">
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Sub Total :</strong></td>
+                                            <td>$1295.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>TOTAL :</strong></td>
+                                            <td><b>$1295.00</b></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </section>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="text-right accept-invoice-button">
+                            <button ng-click="rc.printInvoice('invoice')" class="btn btn-white">
+                                <i class="fa fa-print"></i> Print
+                            </button>
+                            <a ng-href="#/payment/{{rc.project.clientId}}/{{rc.project.id}}" class="btn btn-primary">
+                                <i class="fa fa-check"></i> Renew
+                            </a>
+                        </div>
+                        <div class="well m-t invoice-footer">
+                            <div>
+                                <strong>Footer</strong>
+                                Legal stuff goes here. and other footer stuff
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
